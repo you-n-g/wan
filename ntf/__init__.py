@@ -41,7 +41,7 @@ class Notifier:
     def ntf(self, message):
         self._ntf(message=message)
 
-    def wait(self, pid=None, message=None, idle=True, patience=20):
+    def wait(self, pid=None, message=None, idle=False, patience=20):
         """wait.
         wati the proces to stop or idle
 
@@ -52,16 +52,30 @@ class Notifier:
         idle :
             will it notify me if the process become idle
         """
+        logger.debug(f"Idle: {idle}")
+
+        process_info = ":"
         if pid is None:
             pid = get_pid_via_fzf()
-        logger.info(f'PID[{pid}] selected')
+            if pid is None:
+                logger.info('No process selected')
+                return
+
+        try:
+            p = psutil.Process(pid)
+        except psutil.NoSuchProcess:
+            process_info = ""
+        else:
+            process_info = ":" + ' '.join(p.cmdline())
+
+        logger.info(f'Process[{pid}{process_info}] selected')
 
         cp = 0
         while True:
             try:
                 p = psutil.Process(pid)
             except psutil.NoSuchProcess:
-                logger.debug('The process has ended')
+                logger.debug(f'The process[PID] has ended')
                 break
             else:
                 # TODO: get the information of subprocess
@@ -75,8 +89,7 @@ class Notifier:
                     cp = 0
             time.sleep(2)
         if message is None:
-            # TODO: auto get some information of the process
-            message = 'The process has stopped or become idle now.'
+            message = f'The Process[{pid}{process_info}] has stopped or become idle now.'
         self.ntf(message)
 
 
