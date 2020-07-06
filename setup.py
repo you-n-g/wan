@@ -1,6 +1,8 @@
 from setuptools import setup, find_packages
 setup(
-    name='want',
+    author = 'zhupr',
+    author_email = 'zplongr@hotmail.com',
+    name='wan',
     version='0.0.1',
     packages=find_packages(),
     entry_points={
