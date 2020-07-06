@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 setup(
-    name='mytools',
+    name='want',
     version='0.0.1',
     packages=find_packages(),
     entry_points={
-        'console_scripts': ['ntf=ntf:run'],
+        'console_scripts': ['wan=wan:run'],
     },
     install_requires=[
         'loguru>=0.5.1',
