@@ -10,5 +10,7 @@ setup(
         'loguru>=0.5.1',
         'notifiers>=1.2.1',
         'fire>=0.3.1',
+        'psutil>=5.7.0',
+        'iterfzf>=0.5.0.20.0',
     ],
 )

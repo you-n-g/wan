@@ -4,6 +4,7 @@ from pathlib import Path
 from loguru import logger
 from notifiers import get_notifier
 from functools import partial
+from .utils import get_pid_via_fzf
 import psutil
 import time
 
@@ -24,6 +25,7 @@ class Notifier:
                 token: <Your token>
             ```
         """
+        # TODO: DEBUG mode
         path = Path(config_path).expanduser()
         if not path.exists():
             msg = f'Can\'t find the config file for notifiers: {path}'
@@ -39,7 +41,7 @@ class Notifier:
     def ntf(self, message):
         self._ntf(message=message)
 
-    def wait(self, pid, message=None, idle=True, patience=20):
+    def wait(self, pid=None, message=None, idle=True, patience=20):
         """wait.
         wati the proces to stop or idle
 
@@ -50,6 +52,10 @@ class Notifier:
         idle :
             will it notify me if the process become idle
         """
+        if pid is None:
+            pid = get_pid_via_fzf()
+        logger.info(f'PID[{pid}] selected')
+
         cp = 0
         while True:
             try:
@@ -58,6 +64,7 @@ class Notifier:
                 logger.debug('The process has ended')
                 break
             else:
+                # TODO: get the information of subprocess
                 p_status = p.status()
                 if idle and p_status not in {psutil.STATUS_RUNNING, psutil.STATUS_DISK_SLEEP}:
                     cp += 1
@@ -68,6 +75,7 @@ class Notifier:
                     cp = 0
             time.sleep(2)
         if message is None:
+            # TODO: auto get some information of the process
             message = 'The process has stopped or become idle now.'
         self.ntf(message)
 
