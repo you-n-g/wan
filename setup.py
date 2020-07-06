@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
 setup(
+    author = 'zhupr',
+    author_email = 'zplongr@hotmail.com',
     name='want',
     version='0.0.1',
     packages=find_packages(),
