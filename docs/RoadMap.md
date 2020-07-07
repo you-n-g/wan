@@ -9,7 +9,7 @@
 - [ ] Run and wait the command
 - [ ] documents(rst??)
 - [ ] travies - CI
-
+- [ ] wait until system become idle
 
 ## Release
 - [ ] pip release
