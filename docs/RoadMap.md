@@ -21,5 +21,5 @@
 
 
 ## Promotion
-- [ ] stackover flow
+- [ ] stackoverflow
 - [ ] zhihu
