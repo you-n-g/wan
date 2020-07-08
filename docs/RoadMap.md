@@ -11,6 +11,9 @@
 - [ ] travies - CI
 - [ ] wait until system become idle
 
+### optional
+- [ ] Can we make fzf installed automatically?
+
 ## Release
 - [ ] pip release
 - [ ] readthedocs???
