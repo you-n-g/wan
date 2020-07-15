@@ -9,7 +9,10 @@
 - [ ] documents(rst??)
 - [ ] Opensource Licence?
 - [ ] travies - CI
+- [ ] wait until system become idle
 
+### optional
+- [ ] Can we make fzf installed automatically?
 
 ## Release
 - [ ] pip release
@@ -18,4 +21,5 @@
 
 
 ## Promotion
-- [ ] stackover flow
+- [ ] stackoverflow
+- [ ] zhihu
