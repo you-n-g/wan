@@ -14,7 +14,6 @@ def get_pid_from_line(line):
 
 
 def get_pid_via_fzf(exact=True):
-    # TODO: make it can be selected with full match
     return get_pid_from_line(iterfzf(iter_ps(), multi=False, exact=exact))
 
 

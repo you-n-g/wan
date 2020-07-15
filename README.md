@@ -31,7 +31,15 @@ log_level: DEBUG  # the default level is INFO
 # Usage
 
 ## Use in python code
+
+* Call the function in python code directly.
 ```python
 <Your code which takes a lot of time>
 from wan import ntf; ntf('Finished')
 ```
+
+* Call the function in shell directly
+```shell
+> sleep 10 ; wan ntf sleep finished
+```
+

@@ -43,7 +43,8 @@ class Notifier:
         kwargs = self.config['kwargs']
         self._ntf = partial(self._provider.notify, **kwargs)
 
-    def ntf(self, message):
+    def ntf(self, *messages):
+        message = " ".join(messages)
         logger.debug("Sending message: {}".format(message))
         self._ntf(message=message)
 
