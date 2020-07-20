@@ -4,7 +4,7 @@ from pathlib import Path
 from loguru import logger
 from notifiers import get_notifier
 from functools import partial
-from .utils import get_pid_via_fzf
+from .utils import get_pid_via_fzf, is_buzy
 import psutil
 import time
 import sys
@@ -95,13 +95,12 @@ class Notifier:
                 logger.info(f'The process[PID] has ended')
                 break
             else:
-                # TODO: get the information of subprocesses
                 p_status = p.status()
                 logger.debug(f'status: {p_status}, patience: {cp}')
-                if idle and p_status not in {psutil.STATUS_RUNNING, psutil.STATUS_DISK_SLEEP}:
+                if idle and not is_buzy(p):
                     cp += 1
                     if cp > patience:
-                        logger.info(f'The process is not running, status: {p_status}')
+                        logger.info(f'The process is idle, status: {p_status}')
                         break
                 else:
                     cp = 0
