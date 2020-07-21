@@ -7,7 +7,10 @@ This package is under development.  We will release it soon in the future.
 
 # Installation
 
-[fzf](https://github.com/junegunn/fzf) is required
+<!-- [fzf](https://github.com/junegunn/fzf) is required -->
+```shell
+pip install wan  # TODO: upload this to pip source
+```
 
 ## config
 

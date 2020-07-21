@@ -80,7 +80,7 @@ class Notifier:
         if pid is None:
             pid = get_pid_via_fzf()
             if pid is None:
-                logger.info('No process selected')
+                logger.info('No process selected, You can used --pid to specify the process')
                 return
 
         process_info = self._get_process_info(pid)
