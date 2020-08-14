@@ -8,10 +8,11 @@ from .utils import get_pid_via_fzf, is_buzy
 import psutil
 import time
 import sys
+import os
 
 
 class Notifier:
-    def __init__(self, config_path: str = '~/.dotfiles/.notifers.yaml'):
+    def __init__(self, config_path: str = '~/.dotfiles/.notifiers.yaml'):
         """__init__.
 
         Parameters
@@ -24,6 +25,15 @@ class Notifier:
             kwargs:
                 chat_id: <Your Chat ID>
                 token: <Your token>
+            ```
+
+            If you need proxy for your provider, please use the config below.
+            The env will be updated when running `ntf` method
+            [This solution](https://github.com/liiight/notifiers/issues/236) is proposed by notifiers
+            ```
+            env:
+                HTTP_PROXY: 'http://IP:PORT'
+                HTTPS_PROXY: 'http://IP:PORT'
             ```
         """
         # TODO: DEBUG mode
@@ -43,10 +53,23 @@ class Notifier:
         kwargs = self.config['kwargs']
         self._ntf = partial(self._provider.notify, **kwargs)
 
+        self.env = self.config.get('env', {})
+
     def ntf(self, *messages):
         message = " ".join(messages)
         logger.debug("Sending message: {}".format(message))
+        if len(message) == 0:
+            logger.warning("Blank message.")
+
+        # set proxy if needed
+        env_back = os.environ.copy()
+        os.environ.update(self.env)
         self._ntf(message=message)
+        for k, v in self.env.items():
+            if k not in env_back:
+                del os.environ[k]
+            else:
+                os.environ[k] = env_back[k]
 
     @staticmethod
     def _get_process_info(pid):
