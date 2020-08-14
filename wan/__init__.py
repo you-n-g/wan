@@ -75,7 +75,7 @@ class Notifier:
         sleep :
             sleep
         """
-        logger.debug(f"Idle: {idle}")
+        logger.debug(f"idle: {idle}; patience: {patience}; sleep: {sleep}")
 
         if pid is None:
             pid = get_pid_via_fzf()

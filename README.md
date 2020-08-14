@@ -10,6 +10,7 @@ This package is under development.  We will release it soon in the future.
 <!-- [fzf](https://github.com/junegunn/fzf) is required -->
 ```shell
 pip install wan  # TODO: upload this to pip source
+pip install git+https://github.com/you-n-g/wan.git@dev
 ```
 
 ## config
