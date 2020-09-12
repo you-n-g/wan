@@ -7,10 +7,12 @@ from functools import partial
 from .utils import get_pid_via_fzf
 import psutil
 import time
+import sys
+import os
 
 
 class Notifier:
-    def __init__(self, config_path: str = '~/.dotfiles/.notifers.yaml'):
+    def __init__(self, config_path: str = '~/.dotfiles/.notifiers.yaml'):
         """__init__.
 
         Parameters
@@ -24,6 +26,15 @@ class Notifier:
                 chat_id: <Your Chat ID>
                 token: <Your token>
             ```
+
+            If you need proxy for your provider, please use the config below.
+            The env will be updated when running `ntf` method
+            [This solution](https://github.com/liiight/notifiers/issues/236) is proposed by notifiers
+            ```
+            env:
+                HTTP_PROXY: 'http://IP:PORT'
+                HTTPS_PROXY: 'http://IP:PORT'
+            ```
         """
         # TODO: DEBUG mode
         path = Path(config_path).expanduser()
@@ -34,39 +45,68 @@ class Notifier:
         else:
             with path.open() as f:
                 self.config = yaml.load(f, Loader=yaml.FullLoader)
+        logger.remove()
+        log_level = self.config.get('log_level', 'INFO')
+        logger.add(sys.stderr, level=log_level)
+        logger.debug(f"log level: {log_level}")
         self._provider = get_notifier(self.config['provider'])
         kwargs = self.config['kwargs']
         self._ntf = partial(self._provider.notify, **kwargs)
 
-    def ntf(self, message):
+        self.env = self.config.get('env', {})
+
+    def ntf(self, *messages):
+        message = " ".join(messages)
+        logger.debug("Sending message: {}".format(message))
+        if len(message) == 0:
+            logger.warning("Blank message.")
+
+        # set proxy if needed
+        env_back = os.environ.copy()
+        os.environ.update(self.env)
         self._ntf(message=message)
+        for k, v in self.env.items():
+            if k not in env_back:
+                del os.environ[k]
+            else:
+                os.environ[k] = env_back[k]
 
-    def wait(self, pid=None, message=None, idle=False, patience=20):
-        """wait.
-        wati the proces to stop or idle
-
-        Parameters
-        ----------
-        pid :
-            pid
-        idle :
-            will it notify me if the process become idle
-        """
-        logger.debug(f"Idle: {idle}")
-
+    @staticmethod
+    def _get_process_info(pid):
         process_info = ":"
-        if pid is None:
-            pid = get_pid_via_fzf()
-            if pid is None:
-                logger.info('No process selected')
-                return
-
         try:
             p = psutil.Process(pid)
         except psutil.NoSuchProcess:
             process_info = ""
         else:
             process_info = ":" + ' '.join(p.cmdline())
+        return process_info
+
+    def wait(self, pid=None, message=None, idle=False, patience=20, sleep=3):
+        """wait.
+
+        Parameters
+        ----------
+        pid :
+            pid
+        message :
+            message
+        idle :
+            will it notify me if the process become idle
+        patience :
+            How many idle status is ignored before reguard the process as stopped
+        sleep :
+            sleep
+        """
+        logger.debug(f"Idle: {idle}")
+
+        if pid is None:
+            pid = get_pid_via_fzf()
+            if pid is None:
+                logger.info('No process selected, You can used --pid to specify the process')
+                return
+
+        process_info = self._get_process_info(pid)
 
         logger.info(f'Process[{pid}{process_info}] selected')
 
@@ -75,22 +115,28 @@ class Notifier:
             try:
                 p = psutil.Process(pid)
             except psutil.NoSuchProcess:
-                logger.debug(f'The process[PID] has ended')
+                logger.info(f'The process[PID] has ended')
                 break
             else:
-                # TODO: get the information of subprocess
+                # TODO: get the information of subprocesses
                 p_status = p.status()
+                logger.debug(f'status: {p_status}, patience: {cp}')
                 if idle and p_status not in {psutil.STATUS_RUNNING, psutil.STATUS_DISK_SLEEP}:
                     cp += 1
                     if cp > patience:
-                        logger.debug(f'The process is not running, status: {p_status}')
+                        logger.info(f'The process is not running, status: {p_status}')
                         break
                 else:
                     cp = 0
-            time.sleep(2)
+            time.sleep(sleep)
         if message is None:
             message = f'The Process[{pid}{process_info}] has stopped or become idle now.'
         self.ntf(message)
+
+
+def ntf(message):
+    # notify with the call stack
+    Notifier().ntf(message)
 
 
 def run():
