@@ -9,7 +9,8 @@ This package is under development.  We will release it soon in the future.
 
 <!-- [fzf](https://github.com/junegunn/fzf) is required -->
 ```shell
-pip install wan  # TODO: upload this to pip source
+python setup.py install
+# pip install wan  # TODO: upload this to pip source
 ```
 
 ## config
