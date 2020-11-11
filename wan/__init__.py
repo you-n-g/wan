@@ -1,15 +1,17 @@
-import fire
-import yaml
+import os
+import subprocess
+import sys
+import time
+from functools import partial
 from pathlib import Path
+
+import fire
+import psutil
+import yaml
 from loguru import logger
 from notifiers import get_notifier
-from functools import partial
-from .utils import get_pid_via_fzf
-import subprocess
-import psutil
-import time
-import sys
-import os
+
+from .utils import get_pid_via_fzf, is_buzy
 
 
 class Notifier:
@@ -101,7 +103,7 @@ class Notifier:
         sleep :
             sleep
         """
-        logger.debug(f"Idle: {self._idle or idle}")
+        logger.debug(f"Idle: {self._idle or idle}; patience: {patience}; sleep: {sleep}")
 
         if pid is None:
             pid = get_pid_via_fzf()
@@ -128,12 +130,11 @@ class Notifier:
                 logger.info(f'The process[PID] has ended')
                 break
             else:
-                # TODO: get the information of subprocesses
                 logger.debug(f'status: {p_status}, patience: {cp}')
-                if (self._idle or idle) and p_status not in {psutil.STATUS_RUNNING, psutil.STATUS_DISK_SLEEP}:
+                if (self._idle or idle) and not is_buzy(p):
                     cp += 1
                     if cp > patience:
-                        logger.info(f'The process is not running, status: {p_status}')
+                        logger.info(f'The process is idle, status: {p_status}')
                         break
                 else:
                     cp = 0

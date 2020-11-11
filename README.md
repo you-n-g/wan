@@ -7,10 +7,18 @@ This package is under development.  We will release it soon in the future.
 
 # Installation
 
+You can install wan with **one** of the following command
+
 <!-- [fzf](https://github.com/junegunn/fzf) is required -->
 ```shell
-python setup.py install
+# 1)
 # pip install wan  # TODO: upload this to pip source
+# 2)
+pip install git+https://github.com/you-n-g/wan.git@dev
+# 3)
+python setup.py install
+# 4)
+python setup.py develop  # It is recommended if you want to develop wan
 ```
 
 ## config
