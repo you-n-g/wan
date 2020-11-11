@@ -5,6 +5,7 @@ from loguru import logger
 from notifiers import get_notifier
 from functools import partial
 from .utils import get_pid_via_fzf
+import subprocess
 import psutil
 import time
 import sys
@@ -12,7 +13,7 @@ import os
 
 
 class Notifier:
-    def __init__(self, config_path: str = '~/.dotfiles/.notifiers.yaml'):
+    def __init__(self, config_path: str = '~/.dotfiles/.notifiers.yaml', idle=False):
         """__init__.
 
         Parameters
@@ -54,6 +55,8 @@ class Notifier:
         self._ntf = partial(self._provider.notify, **kwargs)
 
         self.env = self.config.get('env', {})
+
+        self._idle = idle
 
     def ntf(self, *messages):
         message = " ".join(messages)
@@ -98,7 +101,7 @@ class Notifier:
         sleep :
             sleep
         """
-        logger.debug(f"Idle: {idle}")
+        logger.debug(f"Idle: {self._idle or idle}")
 
         if pid is None:
             pid = get_pid_via_fzf()
@@ -114,14 +117,20 @@ class Notifier:
         while True:
             try:
                 p = psutil.Process(pid)
+                p_status = p.status()
+                # If the process has been stopped then we'll break the while loop
+                # 1) No such PID
+                # 2) Become Zombie
+                # 3) Idle for a long time
+                if p_status == psutil.STATUS_ZOMBIE:
+                    break
             except psutil.NoSuchProcess:
                 logger.info(f'The process[PID] has ended')
                 break
             else:
                 # TODO: get the information of subprocesses
-                p_status = p.status()
                 logger.debug(f'status: {p_status}, patience: {cp}')
-                if idle and p_status not in {psutil.STATUS_RUNNING, psutil.STATUS_DISK_SLEEP}:
+                if (self._idle or idle) and p_status not in {psutil.STATUS_RUNNING, psutil.STATUS_DISK_SLEEP}:
                     cp += 1
                     if cp > patience:
                         logger.info(f'The process is not running, status: {p_status}')
@@ -132,6 +141,18 @@ class Notifier:
         if message is None:
             message = f'The Process[{pid}{process_info}] has stopped or become idle now.'
         self.ntf(message)
+
+    def cmd(self, *cmd):
+        """
+        Run command directly and notify after cmd stop or become idle
+        """
+        logger.info(f"command: {cmd}")
+        if len(cmd) > 0:
+            jcmd = ' '.join(str(c) for c in cmd)
+            proc = subprocess.Popen(jcmd, shell=True)
+            self.wait(proc.pid)
+            code = proc.wait()
+            return code
 
 
 def ntf(message):
