@@ -147,13 +147,25 @@ class Notifier:
         """
         Run command directly and notify after cmd stop or become idle
         """
-        logger.info(f"command: {cmd}")
+        logger.info(f"run command: {cmd}")
         if len(cmd) > 0:
             jcmd = ' '.join(str(c) for c in cmd)
             proc = subprocess.Popen(jcmd, shell=True)
             self.wait(proc.pid)
             code = proc.wait()
             return code
+
+    def wc(self, *cmd):
+        """
+        Wait a process to end and then start a command
+        """
+        logger.info(f"command queued: {cmd}")
+        if len(cmd) > 0:
+            self.wait()
+            return self.cmd(*cmd)
+
+    def pid(self):
+        return get_pid_via_fzf()
 
 
 def ntf(message):
