@@ -15,5 +15,6 @@ setup(
 		'fire>=0.3.1',
 		'psutil>=5.7.0',
 		'iterfzf>=0.5.0.20.0',
+                "PyYAML",
 	],
 )
