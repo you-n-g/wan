@@ -114,6 +114,7 @@ class Notifier:
         process_info = self._get_process_info(pid)
 
         logger.info(f'Process[{pid}{process_info}] selected')
+        start_time = time.time()
 
         cp = 0
         while True:
@@ -141,7 +142,7 @@ class Notifier:
             time.sleep(sleep)
         if message is None:
             message = f'The Process[{pid}{process_info}] has stopped or become idle now.'
-        self.ntf(message)
+        self.ntf(f"[{time.time() - start_time:.1f}s] {message}")
 
     def cmd(self, *cmd):
         """
