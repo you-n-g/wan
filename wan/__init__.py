@@ -15,7 +15,7 @@ from .utils import get_pid_via_fzf, is_buzy
 
 
 class Notifier:
-    def __init__(self, config_path: str = '~/.dotfiles/.notifiers.yaml', idle=False):
+    def __init__(self, config_path: str = "~/.dotfiles/.notifiers.yaml", idle=False):
         """__init__.
 
         Parameters
@@ -42,21 +42,21 @@ class Notifier:
         # TODO: DEBUG mode
         path = Path(config_path).expanduser()
         if not path.exists():
-            msg = f'Can\'t find the config file for notifiers: {path}'
+            msg = f"Can't find the config file for notifiers: {path}"
             logger.warning(msg)
             raise FileExistsError(msg)
         else:
             with path.open() as f:
                 self.config = yaml.load(f, Loader=yaml.FullLoader)
         logger.remove()
-        log_level = self.config.get('log_level', 'INFO')
+        log_level = self.config.get("log_level", "INFO")
         logger.add(sys.stderr, level=log_level)
         logger.debug(f"log level: {log_level}")
-        self._provider = get_notifier(self.config['provider'])
-        kwargs = self.config['kwargs']
+        self._provider = get_notifier(self.config["provider"])
+        kwargs = self.config["kwargs"]
         self._ntf = partial(self._provider.notify, **kwargs)
 
-        self.env = self.config.get('env', {})
+        self.env = self.config.get("env", {})
 
         self._idle = idle
 
@@ -84,7 +84,7 @@ class Notifier:
         except psutil.NoSuchProcess:
             process_info = ""
         else:
-            process_info = ":" + ' '.join(p.cmdline())
+            process_info = ":" + " ".join(p.cmdline())
         return process_info
 
     def wait(self, pid=None, message=None, idle=False, patience=20, sleep=3):
@@ -108,12 +108,12 @@ class Notifier:
         if pid is None:
             pid = get_pid_via_fzf()
             if pid is None:
-                logger.info('No process selected, You can used --pid to specify the process')
+                logger.info("No process selected, You can used --pid to specify the process")
                 return
 
         process_info = self._get_process_info(pid)
 
-        logger.info(f'Process[{pid}{process_info}] selected')
+        logger.info(f"Process[{pid}{process_info}] selected")
         start_time = time.time()
 
         cp = 0
@@ -128,20 +128,20 @@ class Notifier:
                 if p_status == psutil.STATUS_ZOMBIE:
                     break
             except psutil.NoSuchProcess:
-                logger.info(f'The process[PID] has ended')
+                logger.info(f"The process[PID] has ended")
                 break
             else:
-                logger.debug(f'status: {p_status}, patience: {cp}')
+                logger.debug(f"status: {p_status}, patience: {cp}")
                 if (self._idle or idle) and not is_buzy(p):
                     cp += 1
                     if cp > patience:
-                        logger.info(f'The process is idle, status: {p_status}')
+                        logger.info(f"The process is idle, status: {p_status}")
                         break
                 else:
                     cp = 0
             time.sleep(sleep)
         if message is None:
-            message = f'The Process[{pid}{process_info}] has stopped or become idle now.'
+            message = f"The Process[{pid}{process_info}] has stopped or become idle now."
         self.ntf(f"[{time.time() - start_time:.1f}s] {message}")
 
     def cmd(self, *cmd):
@@ -150,7 +150,7 @@ class Notifier:
         """
         logger.info(f"run command: {cmd}")
         if len(cmd) > 0:
-            jcmd = ' '.join(str(c) for c in cmd)
+            jcmd = " ".join(str(c) for c in cmd)
             proc = subprocess.Popen(jcmd, shell=True)
             self.wait(proc.pid)
             code = proc.wait()
@@ -178,5 +178,5 @@ def run():
     fire.Fire(Notifier)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()

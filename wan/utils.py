@@ -7,9 +7,9 @@ import stat
 
 
 def iter_ps():
-    res = subprocess.check_output('ps aux', shell=True)
+    res = subprocess.check_output("ps aux", shell=True)
     res = res.decode()
-    return res.split('\n')
+    return res.split("\n")
 
 
 def get_pid_from_line(line):
@@ -23,9 +23,9 @@ def get_pid_via_fzf(exact=True):
         selected_line = iterfzf(iter_ps(), multi=False, exact=exact)
     except PermissionError as e:
         try:
-            os.chmod(e.filename, os.stat(e.filename).st_mode |  stat.S_IEXEC)
+            os.chmod(e.filename, os.stat(e.filename).st_mode | stat.S_IEXEC)
         except PermissionError:
-            logger.error(f'Please make {e.filename} executable(e.g  `chmod a+x {e.filename}`).')
+            logger.error(f"Please make {e.filename} executable(e.g  `chmod a+x {e.filename}`).")
             return None
         else:
             selected_line = iterfzf(iter_ps(), multi=False, exact=exact)
