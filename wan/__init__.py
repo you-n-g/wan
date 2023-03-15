@@ -169,9 +169,9 @@ class Notifier:
         return get_pid_via_fzf()
 
 
-def ntf(message):
+def ntf(message, config_path: str = "~/.dotfiles/.notifiers.yaml"):
     # notify with the call stack
-    Notifier().ntf(message)
+    Notifier(config_path=config_path).ntf(message)
 
 
 def run():
