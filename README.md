@@ -14,7 +14,7 @@ You can install wan with **one** of the following command
 # 1)
 # pip install wan  # TODO: upload this to pip source
 # 2)
-pip install git+https://github.com/you-n-g/wan.git@dev
+pip install git+https://github.com/you-n-g/wan.git@master
 # 3)
 python setup.py install
 # 4)
