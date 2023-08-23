@@ -16,5 +16,6 @@ setup(
         "psutil",
         "iterfzf",
         "PyYAML",
+        "watchdog",
     ],
 )
