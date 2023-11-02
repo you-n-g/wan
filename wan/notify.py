@@ -54,7 +54,7 @@ class Notifier:
         self.env = self.config.get("env", {})
 
     def ntf(self, *messages):
-        message = " ".join(messages)
+        message = " ".join(str(m)for m in messages)
         logger.debug("Sending message: {}".format(message))
         if len(message) == 0:
             logger.warning("Blank message.")
