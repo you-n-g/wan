@@ -1,0 +1,40 @@
+_commit: v0.0.54
+_src_path: gh:serious-scaffold/ss-python
+author_email: afe.young@gmail.com
+author_name: Xiao Yang
+copyright_holder: ''
+copyright_license: MIT License
+copyright_year: 2022-2024
+coverage_threshold: 100
+default_py: '3.12'
+development_status: Beta
+max_py: '3.12'
+min_py: '3.8'
+module_name: wan
+organization_name: ''
+package_name: wan
+platforms:
+- macos
+- ubuntu
+- windows
+project_description: 'Wait and notify conveniently'
+project_name: WAN
+readme_content: "\n\n# Wait And Notify(WAN)\nThis package is under development.  We\
+    \ will release it soon in the future.\n\n\n\n# Installation\n\nYou can install\
+    \ wan with **one** of the following command\n\n<!-- [fzf](https://github.com/junegunn/fzf)\
+    \ is required -->\n```shell\n# 1)\n# pip install wan  # TODO: upload this to pip\
+    \ source\n# 2)\npip install git+https://github.com/you-n-g/wan.git@master\n# 3)\n\
+    python setup.py install\n# 4)\npython setup.py develop  # It is recommended if\
+    \ you want to develop wan\n```\n\n## config\n\nPlease config your [notifiers](https://github.com/liiight/notifiers).\n\
+    `wan` will read the setting in ` ~/.dotfiles/.notifers.yaml` as the arguments\
+    \ for notifiers.\n\nHere is a config example of telegram\n```yaml\nprovider: telegram\n\
+    kwargs:\n    chat_id: <Your Chat id from  `@myidbot` by sending `/getid`>\n  \
+    \  token: <Your token from `@BotFather` by sending `/newbot`>\n```\n\nOther configs:\n\
+    ```yaml\nlog_level: DEBUG  # the default level is INFO\n```\n\n\n# Usage\n\n##\
+    \ Use in python code\n\n* Call the function in python code directly.\n```python\n\
+    <Your code which takes a lot of time>\nfrom wan import ntf; ntf('Finished')\n\
+    ```\n\n* Call the function in shell directly\n```shell\n> sleep 10 ; wan ntf sleep\
+    \ finished\n```\n\n"
+repo_name: wan
+repo_namespace: you-n-g
+repo_platform: github

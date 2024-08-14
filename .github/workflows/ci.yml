@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  ci:
+    if: ${{ !cancelled() && ! failure() }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          fetch-depth: 0
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@568ddd69406b30de1774ec0044b73ae06e716aa4 # v4
+        with:
+          cache: true
+          python-version: ${{ matrix.python-version }}
+          version: 2.16.1
+      - run: env | sort
+      - run: make prerequisites
+      - run: make dev
+      - run: make lint test doc build
+    strategy:
+      matrix:
+        os:
+          # renovate: github-runner
+          - macos-14
+          # renovate: github-runner
+          - ubuntu-22.04
+          # renovate: github-runner
+          - windows-2022
+        python-version:
+          - '3.8'
+          - '3.9'
+          - '3.10'
+          - '3.11'
+          - '3.12'
+        # Python 3.8 and 3.9 do not run on macos-14 which is using arm64 hardware.
+        exclude:
+          # renovate: github-runner
+          - os: macos-14
+            python-version: '3.8'
+          # renovate: github-runner
+          - os: macos-14
+            python-version: '3.9'
+        include:
+          - os: macos-13
+            python-version: '3.8'
+          - os: macos-13
+            python-version: '3.9'

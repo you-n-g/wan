@@ -1,0 +1,134 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+    "setuptools==71.1.0",
+    "setuptools-scm==8.1.0",
+]
+
+[project]
+name = "wan"
+description = "Wait and notify conveniently"
+readme = "README.md"
+keywords = [
+    "copier-template",
+    "full-development-lifecycle",
+    "project-template",
+    "serious-scaffold",
+]
+license = { text = "MIT" }
+authors = [
+    { email = "afe.young@gmail.com", name = "Xiao Yang" },
+]
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dynamic = [
+    "version",
+]
+dependencies = [
+    "pydantic-settings",
+    "typer[all]",
+]
+urls.documentation = "https://you-n-g.github.io/wan"
+urls.issue = "https://github.com/you-n-g/wan/issues"
+urls.repository = "https://github.com/you-n-g/wan"
+scripts.wan-cli = "wan.cli:app"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+doc = [
+    "Sphinx",
+    "autodoc-pydantic",
+    "coverage",
+    "furo",
+    "mypy[reports]",
+    "myst-parser",
+    "pytest",
+    "sphinx-click",
+    "sphinx-design",
+]
+lint = [
+    "mypy",
+]
+test = [
+    "coverage",
+    "pytest",
+]
+
+[tool.setuptools_scm]
+fallback_version = "0.0.0"
+
+[tool.ruff]
+src = [
+    "src",
+]
+
+fix = true
+lint.select = [
+    "B",      # flake8-bugbear
+    "D",      # pydocstyle
+    "E",      # pycodestyle error
+    "F",      # Pyflakes
+    "I",      # isort
+    "RUF100", # Unused noqa directive
+    "S",      # flake8-bandit
+    "SIM",    # flake8-simplify
+    "UP",     # pyupgrade
+    "W",      # pycodestyle warning
+]
+lint.per-file-ignores."tests/*" = [
+    "S101",
+]
+lint.pydocstyle.convention = "google"
+
+[tool.codespell]
+write-changes = true
+check-filenames = true
+
+[tool.pyproject-fmt]
+indent = 4
+keep_full_version = true
+max_supported_python = "3.12"
+
+[tool.pytest.ini_options]
+addopts = "-l -s --durations=0"
+log_cli = true
+log_cli_level = "info"
+log_date_format = "%Y-%m-%d %H:%M:%S"
+log_format = "%(asctime)s %(levelname)s %(message)s"
+minversion = "6.0"
+
+[tool.coverage.report]
+fail_under = 100
+
+[tool.coverage.run]
+source = [
+    "wan",
+]
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_any_unimported = true
+disallow_untyped_defs = true
+enable_error_code = [
+    "ignore-without-code",
+]
+exclude = [
+    "build",
+    "doc",
+]
+no_implicit_optional = true
+show_error_codes = true
+warn_return_any = true
+warn_unused_ignores = true
