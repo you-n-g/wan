@@ -92,4 +92,3 @@ from wan import ntf; ntf('Finished')
 ## 📜 License
 
 MIT License, for more details, see the [LICENSE](https://github.com/you-n-g/wan/blob/main/LICENSE) file.
->>>>>>> 400ad4d (Init from serious-scaffold-python.)
