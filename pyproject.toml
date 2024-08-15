@@ -50,7 +50,8 @@ dependencies = [
 urls.documentation = "https://you-n-g.github.io/wan"
 urls.issue = "https://github.com/you-n-g/wan/issues"
 urls.repository = "https://github.com/you-n-g/wan"
-scripts.wan-cli = "wan.cli:app"
+# scripts.wan-cli = "wan.cli:app"
+scripts.wan = "wan:run"
 
 [tool.pdm]
 distribution = true
