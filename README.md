@@ -47,7 +47,7 @@ You can install wan with **one** of the following command
 # 1)
 # pip install wan  # TODO: upload this to pip source
 # 2)
-pip install git+https://github.com/you-n-g/wan.git@master
+pip install git+https://github.com/you-n-g/wan.git@main
 # 3)
 python setup.py install
 # 4)
@@ -87,9 +87,6 @@ from wan import ntf; ntf('Finished')
 ```shell
 > sleep 10 ; wan ntf sleep finished
 ```
-
-<<<<<<< HEAD
-=======
 
 
 ## 📜 License
