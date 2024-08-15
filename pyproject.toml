@@ -18,6 +18,8 @@ keywords = [
 license = { text = "MIT" }
 authors = [
     { email = "afe.young@gmail.com", name = "Xiao Yang" },
+    { email = "zplongr@hotmail.com", name = "zhupr" },
+    { email = "v-gazh@hotmail.com", name = "gazh" },
 ]
 requires-python = ">=3.8"
 classifiers = [
@@ -37,6 +39,13 @@ dynamic = [
 dependencies = [
     "pydantic-settings",
     "typer[all]",
+    "loguru",
+    "notifiers",
+    "fire",
+    "psutil",
+    "iterfzf",
+    "PyYAML",
+    "watchdog",
 ]
 urls.documentation = "https://you-n-g.github.io/wan"
 urls.issue = "https://github.com/you-n-g/wan/issues"
