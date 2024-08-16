@@ -75,7 +75,7 @@ RUN --mount=source=README.md,target=README.md \
     --mount=source=pdm.lock,target=pdm.lock \
     --mount=source=pyproject.toml,target=pyproject.toml \
     --mount=source=src,target=src,rw \
-    mkdir __pypackages__ && SETUPTOOLS_SCM_PRETEND_VERSION_FOR_WAN=${SCM_VERSION} pdm sync --prod --no-editable
+    mkdir __pypackages__ && SETUPTOOLS_SCM_PRETEND_VERSION_FOR_WANOT=${SCM_VERSION} pdm sync --prod --no-editable
 
 ########################################################################################
 # Prod image is used for deployment and distribution.
@@ -100,4 +100,4 @@ COPY --from=build /workspace/__pypackages__/${PYTHON_VERSION}/lib /workspace/pkg
 COPY --from=build /workspace/__pypackages__/${PYTHON_VERSION}/bin/* /usr/local/bin/
 
 # Set command to run the cli by default.
-ENTRYPOINT ["wan-cli"]
+ENTRYPOINT ["wanot-cli"]

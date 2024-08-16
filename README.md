@@ -12,8 +12,8 @@ Wait and notify conveniently
 [![Semantic Release](https://github.com/you-n-g/wan/actions/workflows/semantic-release.yml/badge.svg)](https://github.com/you-n-g/wan/actions/workflows/semantic-release.yml)
 [![Coverage](https://img.shields.io/endpoint?url=https://you-n-g.github.io/wan/_static/badges/coverage.json)](https://you-n-g.github.io/wan/reports/coverage)
 [![Release](https://img.shields.io/github/v/release/you-n-g/wan)](https://github.com/you-n-g/wan/releases)
-[![PyPI](https://img.shields.io/pypi/v/wan)](https://pypi.org/project/wan/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/wan)](https://pypi.org/project/wan/)
+[![PyPI](https://img.shields.io/pypi/v/wanot)](https://pypi.org/project/wanot/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/wanot)](https://pypi.org/project/wanot/)
 [![GitHub](https://img.shields.io/github/license/you-n-g/wan)](https://github.com/you-n-g/wan/blob/main/LICENSE)
 
 [![pdm-managed](https://img.shields.io/badge/pdm-managed-blueviolet)](https://pdm-project.org)

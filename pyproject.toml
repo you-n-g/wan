@@ -6,7 +6,7 @@ requires = [
 ]
 
 [project]
-name = "wan"
+name = "wanot"
 description = "Wait and notify conveniently"
 readme = "README.md"
 keywords = [

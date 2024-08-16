@@ -2,6 +2,6 @@
 
 ```{eval-rst}
 .. click:: wan.cli:typer_click_object
-  :prog: wan-cli
+  :prog: wanot-cli
   :nested: full
 ```

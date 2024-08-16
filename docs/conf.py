@@ -12,7 +12,7 @@ from importlib import metadata
 author = "Xiao Yang"
 copyright = "2023, Xiao Yang"
 project = "WAN"
-release = metadata.version("wan")
+release = metadata.version("wanot")
 version = ".".join(release.split(".")[:2])
 
 

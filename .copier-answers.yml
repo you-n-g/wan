@@ -12,12 +12,12 @@ max_py: '3.12'
 min_py: '3.8'
 module_name: wan
 organization_name: ''
-package_name: wan
+package_name: wanot
 platforms:
 - macos
 - ubuntu
 - windows
-project_description: 'Wait and notify conveniently'
+project_description: Wait and notify conveniently
 project_name: WAN
 readme_content: "\n\n# Wait And Notify(WAN)\nThis package is under development.  We\
     \ will release it soon in the future.\n\n\n\n# Installation\n\nYou can install\
